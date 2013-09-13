@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="Default Web Site/innovation" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\phouse\\Documents\\Visual\ Studio\ 2012\\Projects\\ChanceDays2\\ChanceDays2\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\phouse\\Documents\\Visual\ Studio\ 2012\\Projects\\ChanceDays2\\ChanceDays2\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="ChanceDays2.Models.ProjectDBContext-Web.config Connection String" description="" value="Data Source=CLDBPRODVS02\SQL2008;Initial Catalog=InnovationDays;Persist Security Info=True;User ID=InnovationDays;Password=2besK4Km" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\phouse\\Documents\\Visual\ Studio\ 2012\\Projects\\ChanceDays2\\ChanceDays2\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ChanceDays2.Models.ProjectDBContext']/@connectionString" />
+  </parameter>
+</parameters>

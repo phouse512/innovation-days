@@ -1,0 +1,103 @@
+﻿@model ChanceDays2.Models.User
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<script type="text/javascript">
+    //$(document).ready(function () {
+    //    $("#cancel").click(function () {
+    //        console.log('hello');
+    //        document.location.assign('@Url.Action("Details", new { id= Model.UserId })');
+    //    });
+    //});
+</script>
+
+<h3>Edit @Model.FirstName @Model.LastName's Profile</h3>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.Hidden("UserId", Model.UserId)
+    @Html.Hidden("Username", Model.Username) 
+
+<div class="row">
+    <div class="col-lg-5">
+        <div class="form-group">
+            <label class="control-label" for="FirstName">First Name:</label>
+            <input name="FirstName" id="FirstName" type="text" class="form-control" value="@Model.FirstName" placeholder="first name.." />
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="form-group">
+            <label class="control-label" for="LastName">Last Name:</label>
+            <input name="LastName" id="LastName" type="text" class="form-control" value="@Model.LastName" placeholder="last name.." />
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label class="control-label" for="Email">Email:</label>
+            <input name="Email" id="Email" type="text" class="form-control" value="@Model.Email" placeholder="email.." />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="Title">Title:</label>
+            <input name="Title" id="Title" type="text" class="form-control" value="@Model.Title" placeholder="ie. 440-442.." />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="Website">Website:</label>
+            <input name="Website" id="Website" type="text" class="form-control" value="@Model.Website" placeholder="ie. 'www.myportfolio.com'" />
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="form-group">
+            <label class="control-label" for="Department">Department:</label>
+            <input name="Deparment" id="Department" type="text" class="form-control" value="@Model.Department" placeholder="ie. 'PD', 'PM'" />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="Office">Office:</label>
+            <input name="Office" id="Office" type="text" class="form-control" value="@Model.Office" placeholder="ie. 'Solon', 'China'" />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="SIPaddress">SIP Address:</label>
+            <input name="SIPaddress" id="SIPaddress" type="text" class="form-control" value="@Model.SIPaddress" placeholder="ie....wtf is a sipaddress" />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-5">
+        <div class="form-group">
+            <label class="control-label" for="Workphone">Workphone:</label>
+            <input name="Workphone" id="Workphone" type="text" class="form-control" value="@Model.Workphone" placeholder="ie. '440-442-xxxx'" />
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="form-group">
+            <label class="control-label" for="Mobilephone">Mobilephone:</label>
+            <input name="Mobilephone" id="Mobilephone" type="text" class="form-control" value="@Model.Mobilephone" placeholder="ie. '216-925-xxxx'" />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10">
+        <div class="form-group">
+            <label class="control-label" for="Bio">Bio:</label>
+            <textarea rows="6" name="Bio" id="Bio" class="form-control" placeholder="bio..">@Model.Bio</textarea>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8">
+
+    </div>
+    @*<div class="col-lg-2">
+        <button id="cancel" class="btn btn-default btn-block pull-right">Cancel</button>
+    </div>*@
+    <div class="col-lg-2">
+        <button type="submit" class="btn btn-primary btn-block pull-right">Save Profile</button>
+    </div>
+</div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

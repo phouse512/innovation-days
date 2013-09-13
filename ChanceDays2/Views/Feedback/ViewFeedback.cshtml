@@ -1,0 +1,64 @@
+﻿@model ChanceDays2.Models.ProjectView
+
+@{
+    ViewBag.Title = "ViewFeedback";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var url = '@Url.Action("SearchAll", "Project")';
+
+        $("#returnToProject").click(function (event) {
+            window.location.href = '@Url.Action("Details", "Project", new { id = Model.ProjectId })';
+        });
+
+        $("#addFeedback").click(function (event) {
+            window.location.href = '@Url.Action("AddFeedback", "Feedback", new {projectid = Model.ProjectId })';
+        });
+
+        $('.close').click(function () {
+            $('.alert').hide('slow');
+        });
+    });
+</script>
+
+@if (TempData["SuccessMessage"] != null)
+{
+     <div class="alert alert-success verticalSpace2">
+        <button type="button" class="close" aria-hidden="true">&times;</button>
+         @TempData["SuccessMessage"]
+    </div>
+}
+
+<h3>View Feedback</h3>
+
+<div class="row">
+    <div class="col-lg-8">
+    @foreach (var feedback in Model.Feedbacks.Reverse())
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a href='@Url.Action("Details", "User", new { id = feedback.Poster.UserId })'> @Html.DisplayFor(feedbackItem => feedback.Poster.FirstName) @Html.DisplayFor(feedbackItem => feedback.Poster.LastName)</a> at @Html.DisplayFor(feedbackItem => feedback.insertDate)
+            </div>
+            <div class="panel-body">
+                @Html.Raw(feedback.Comment)
+            </div>
+        </div>
+    }
+
+    </div>
+    <div class="col-lg-4">
+        <div class="well">
+            <strong>Chance Day:</strong> @Html.DisplayFor(ModelProject => Model.ChanceDay) <br />
+            <strong>Project Name: </strong> @Html.DisplayFor(ModelProject => Model.ProjectName) <br />
+            <strong>Pitch URL: </strong> @Html.DisplayFor(ModelProject => Model.PitchUrl) <br />
+            <strong>Process Status: </strong> @Html.DisplayFor(ModelProject => Model.ProcessStatus) <br />
+            <strong>Feedback Status: </strong> @Html.DisplayFor(ModelProject => Model.FeedbackStatus) <br />
+        </div>
+        <div class="pull-right">
+            <button id="returnToProject" class="btn btn-default">Back To Project</button>
+            <button id="addFeedback" class="btn btn-primary">Add Feedback</button>
+        </div>
+    </div>
+</div>
+

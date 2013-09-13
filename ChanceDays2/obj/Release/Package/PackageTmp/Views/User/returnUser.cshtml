@@ -1,0 +1,19 @@
+﻿@model ChanceDays2.Models.User
+    
+@if (TempData["NewUser"] != null)
+{
+
+     <div class="alert alert-info verticalSpace2">
+        <button type="button" class="close" aria-hidden="true">&times;</button>
+         @TempData["NewUser"]
+    </div>
+    <script type="text/javascript">
+        document.location.href = '@TempData["Url"]';
+    </script>
+} else
+{
+    <p>Hello, <span class="username">@Model.FirstName @Model.LastName</span>!</p>
+}
+
+
+

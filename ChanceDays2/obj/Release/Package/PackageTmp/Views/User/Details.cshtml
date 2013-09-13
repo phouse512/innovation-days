@@ -1,0 +1,61 @@
+﻿@model ChanceDays2.Models.User
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.close').click(function () {
+            $('.alert').hide('slow');
+        });
+    });
+</script>
+    
+@if (TempData["SuccessMessage"] != null)
+{
+     <div class="alert alert-success verticalSpace2">
+        <button type="button" class="close" aria-hidden="true">&times;</button>
+         @TempData["SuccessMessage"]
+    </div>
+}
+
+<h2>Details</h2>
+
+<div class="row">
+    <div class="col-lg-6">
+        <ul class="list-group">
+            <li class="list-group-item"><strong>Name: </strong><span class="pull-right">@Model.Username</span></li>
+            <li class="list-group-item"><strong>Name: </strong><span class="pull-right">@Model.LastName, @Model.FirstName</span></li>
+            <li class="list-group-item"><strong>Work E-mail: </strong><span class="pull-right"><a href="@Model.Email">@Model.Email</a></span></li>
+            <li class="list-group-item"><strong>Department: </strong><span class="pull-right">@Html.DisplayFor(model => model.Department)</span></li>
+            <li class="list-group-item"><strong>Title: </strong><span class="pull-right">@Html.DisplayFor(model=>model.Title)</span></li>
+            <li class="list-group-item"><strong>SIP Address: </strong><span class="pull-right"><a href="@Html.DisplayFor(model=>model.SIPaddress)">@Html.DisplayFor(model=>model.SIPaddress)</a></span></li>
+            <li class="list-group-item"><strong>Work Phone: </strong><span class="pull-right">@Html.DisplayFor(model=>model.Workphone)</span></li>
+            <li class="list-group-item"><strong>Office: </strong><span class="pull-right">@Html.DisplayFor(model=>model.Office)</span></li>
+            <li class="list-group-item"><strong>Website: </strong><span class="pull-right"><a href="@Html.DisplayFor(model=>model.Website)">@Html.DisplayFor(model=>model.Website)</a></span></li>
+            <li class="list-group-item"><strong>Title: </strong><span class="pull-right">@Html.DisplayFor(model=>model.Mobilephone)</span></li>
+        </ul>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Biography</div>
+            <div class="panel-body">
+                @Html.DisplayFor(model=>model.Bio)
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="pull-right">
+        @if (User.Identity.Name == Model.Username)
+        {
+            <text>
+                <button class="btn btn-primary" onclick="location.href='@Url.Action("Edit", new {id=Model.UserId, username=User.Identity.Name})';">Edit Profile</button>
+            </text>
+        }
+        <button class="btn btn-primary" onclick="location.href='@Url.Action("Index")';">Return</button>
+    </div>
+</div>
+
+

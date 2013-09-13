@@ -1,0 +1,76 @@
+﻿@model ChanceDays2.Models.ProjectView
+
+@{
+    ViewBag.Title = "AddFeedback";
+}
+        <link rel="stylesheet" type="text/css" href="~/Scripts/mdd_styles.css" />
+<script type="text/javascript">
+    $(document).ready(function () {
+        var alertDiv = $("#noText");
+        var url = '@Url.Action("AddFeedback", "Feedback")';
+        $("#submitFeedback").click(function (e) {
+            e.preventDefault();
+            if ($("#comment").val() == "") {
+                $(alertDiv).html('<div class="alert alert-danger verticalSpace"><button type="button" class="close" aria-hidden="true">&times;</button>Feedback must contain text!</div>');
+                $(alertDiv).show('slow');
+                $("#textInput").addClass("has-error");
+                $(".close").click(function () {
+                    $(alertDiv).hide('slow');
+                    $("#textInput").removeClass("has-error");
+                    $(alertDiv).html("");
+                });
+            } else {
+                $("#submitFeedbackForm").submit();
+            }
+        });
+
+        $("textarea.mdd_editor").MarkdownDeep({
+            help_location: "/Scripts/mdd_help.htm",
+            ExtraMode: true
+        });
+
+        $("#returnToFeedback").click(function (event) {
+            event.preventDefault();
+            window.location.href = '@Url.Action("ViewFeedback", "Feedback", new { projectid = Model.ProjectId })';
+        });
+    });
+</script>
+
+<div id="noText"></div>
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post,new { id = "submitFeedbackForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+<div class="row">
+    <div class="col-lg-8">
+        @Html.Hidden("parentProject", Model.ProjectId)
+        @Html.Hidden("poster", Context.User.Identity.Name)
+        <div id="textInput" class="form-group">
+            <label for="comment">Comment:</label>
+            <div class="mdd_toolbar"></div>
+            <textarea class="mdd_editor form-control" id="comment" name="comment" rows="8"></textarea>
+        </div>
+        <div class="form-group">
+            <div class="pull-right">
+                <button id="returnToFeedback" class="btn btn-default">Return to Feedback</button>
+                <button id="submitFeedback" class="btn btn-primary">Submit Feedback</button>
+            </div>
+        </div>
+        <div class="well mdd_preview col-lg-12 verticalSpace2"></div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="well">
+            <strong>Chance Day:</strong> @Html.DisplayFor(ModelProject => Model.ChanceDay) <br />
+            <strong>Project Name: </strong> @Html.DisplayFor(ModelProject => Model.ProjectName) <br />
+            <strong>Pitch URL: </strong> @Html.DisplayFor(ModelProject => Model.PitchUrl) <br />
+            <strong>Process Status: </strong> @Html.DisplayFor(ModelProject => Model.ProcessStatus) <br />
+            <strong>Feedback Status: </strong> @Html.DisplayFor(ModelProject => Model.FeedbackStatus) <br />
+        </div>
+    </div>
+</div>
+    
+}

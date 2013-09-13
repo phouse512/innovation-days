@@ -1,0 +1,62 @@
+﻿@model ChanceDays2.Models.ProjectVersion
+
+@{
+    ViewBag.Title = "SingleViewEdit";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#restore").click(function (e) {
+            var url = '@Url.Action("RestoreVersion", "EditHistory", new { projectversionId = Model.ProjectVersionId, editorname = User.Identity.Name })';
+            window.location.href = url;
+        });
+    });
+</script>
+
+<h2>Review Edit</h2>
+
+<div style="padding-bottom: 45px;" class="alert alert-warning">You're viewing a snapshot of this project's details from @Model.EditedOn.ToShortDateString(). If you would like to go back, click <a href="@Url.Action("ViewEditHistory", "Project", new { id = Model.parentId })" class="alert-link">here.</a><br />
+    If you'd like to restore the project current state to this snapshot, use the restore button. <br />
+    <button id="restore" class="btn btn-warning pull-right">Restore</button>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="well well-lg">
+            <strong>@Model.ProjectName</strong> <br />
+            <strong>ChanceDay:</strong> @Model.ChanceDay <br />
+            <strong>Project Status:</strong> @Model.ProcessStatus <br />
+            <strong>Feedback Status:</strong> @Model.FeedbackStatus <br />
+            <hr />
+            <strong>Problem Description:</strong> @Model.ProblemDescription <br />
+            <strong>Proposed Solution:</strong> @Model.ProposedSolution <br />
+            <strong>Project Scope:</strong> @Model.ProjectScope <br />
+            <strong>Pitch URL:</strong> @Model.PitchUrl <br />
+            <hr />
+            <strong>Latest Change:</strong> @Model.ChangeDescription <br />
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="well">
+            <strong>Changed By:</strong> @Model.EditedBy.FirstName @Model.EditedBy.LastName <br />
+            <strong>Changed On:</strong> @Model.EditedOn.ToShortDateString() at @Model.EditedOn.ToShortTimeString() <br />
+        </div>
+        <div class="well">
+            <strong>Idea Owner:</strong> @if (Model.Owner != null) { 
+                                          <text>
+                                                @Model.Owner.LastName, @Model.Owner.FirstName
+                                          </text>   
+                                         } <br />
+            <strong>Team Lead:</strong> @if (Model.Lead != null) { 
+                                          <text>
+                                                @Model.Lead.LastName, @Model.Lead.FirstName
+                                          </text>   
+                                         } <br />
+            <strong>Presenter:</strong> @if (Model.Presenter != null) { 
+                                          <text>
+                                                @Model.Presenter.LastName, @Model.Presenter.FirstName
+                                          </text>   
+                                         } <br />
+        </div>
+    </div>
+</div>

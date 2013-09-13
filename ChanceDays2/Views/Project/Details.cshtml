@@ -1,0 +1,225 @@
+﻿@model ChanceDays2.Models.ProjectView
+
+@{
+    ViewBag.Title = "Details";
+}
+<script src="~/Scripts/jquery.signalR-1.1.3.js"></script>
+<script src="~/signalR/hubs"></script>
+        <link rel="stylesheet" type="text/css" href="~/Scripts/mdd_styles.css" />
+        <link rel="stylesheet" type="text/css" href="~/Content/custom-panels.css" />
+		<script type="text/javascript" src="~/Scripts/MarkdownDeepLib.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("textarea.mdd_editor").MarkdownDeep({
+            help_location: "/Scripts/mdd_help.htm",
+            ExtraMode: true
+        });
+
+        $("#viewFeedback").click(function () {
+            window.location.href = '@Url.Action("ViewFeedback", "Feedback", new { projectid = Model.ProjectId })';
+        });
+        $(".projectLeadEdit").click(function () {
+            //autoLoadUsers('@Url.Action("SearchAll", "User")');
+            editProjectLeader($(this).attr("id"), '@Url.Action("SearchAll", "User")');
+            $("#projectLeaderModal").modal('show');
+            $('#projectLeaderModal').on('show', function () {
+                $(this).find('.modal-body').css({
+                    width: 'auto',
+                    height: 'auto',
+                    'max-height': '100%'
+                });
+            });
+        });
+
+        $('#projectLeaderModal').on('hide.bs.modal', function () {
+            $("#searchInput").val("");
+            $('.selectuser').html("");
+        });
+
+        $("#submitLeadChange").click(function () {
+            var userId = $("tr.selectedUser").attr("id");
+            if (typeof userId == "undefined") {
+                userId = $("tr.selectedUserInverted").attr("id");
+            }     
+            if (!(typeof userId == "undefined")) {
+                submitLeadButton(userId, '@Url.Encode(User.Identity.Name)');
+            }
+        });
+        $("#removeLead").click(function () {
+            submitLeadButton(0, '@Url.Encode(User.Identity.Name)')
+        });
+
+        $("#viewHistory").click(function () {
+            window.location.href = '@Url.Action("ViewEditHistory", "EditHistory", new { projectid = Model.ProjectId })';
+        });
+
+        $('.close').click(function () {
+            $('.alert').hide('slow', function () {
+                $('.alert').remove();
+            }); 
+        });
+
+        $("#viewMoreDescription").click(function () {
+            $("#moreInfo").toggle('slow');
+        });
+
+        var projectid = parseInt('@Model.ProjectId');
+
+        var chat = $.connection.chat;
+        chat.client.send = function (newLog, parentProject) {
+            if (parentProject == projectid) {
+                $('#posts').append(newLog);
+                $("#posts").find(".panel:last").slideDown("slow", function () {
+                    $("#posts").animate({ scrollTop: $("#posts")[0].scrollHeight }, 800);
+                });
+            }
+        }
+
+        $.connection.hub.start().done(function () {
+            $("#createPost").click(function () {
+                chat.server.send($("#postInput").val(), projectid, '@User.Identity.Name');
+                $("#postInput").val("");
+                $(".mdd_preview").html("");
+            });
+        });
+    });
+
+</script>
+
+@if (TempData["SuccessMessage"] != null)
+{
+     <div class="alert alert-success verticalSpace2">
+        <button type="button" class="close" aria-hidden="true">&times;</button>
+         @TempData["SuccessMessage"]
+    </div>
+}
+
+<h3>Project Details</h3>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="well well-lg">
+            <strong>@Model.ProjectName</strong>
+            <button id="viewMoreDescription" class="pull-right btn btn-small btn-default" type="button">View More</button>   
+            <div id="moreInfo">
+                <hr />
+                <strong>What problem are you solving for?</strong><br />
+                @Model.ProblemDescription <br /> <br />
+                <strong>What is your proposed solution or starting point?</strong><br />
+                @Model.ProposedSolution <br /><br />
+                <strong>What is the scope of this project, and how much do you hope to complete in 24 hours?</strong><br />
+                @Model.ProjectScope <br />
+            </div>
+        </div>
+        <div id="posts" class="well well-lg scrollable">
+            @Html.Action("Index", "LogEntry", new { projectid = Model.ProjectId }) 
+        </div>
+        <div id="AddContent" class="well well-lg" style="padding-bottom: 50px;">
+		    <div class="mdd_toolbar"></div>
+		    @Html.TextArea("postInput", new { @class="mdd_editor", @rows="6" })
+		    <div class="mdd_resizer"></div>
+		    <div class="mdd_preview"></div>
+            <div>
+                <button class="pull-right verticalSpace btn btn-default" id="createPost" type="button">Post</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="well">
+            <strong>Chance Day Period:</strong> @Model.ChanceDay <br />
+            <strong>Pitch URL:</strong> @Model.PitchUrl <br >
+            <strong>Chance Day Step:</strong> @Model.ProcessStatus <br />
+            <strong>Feedback Collection:</strong> @Model.FeedbackStatus <br />
+        </div>
+        <div class="well">
+            <strong>Idea Owner:</strong> @if (Model.Owner != null) { 
+                                          <text>
+                                                @Model.Owner.LastName, @Model.Owner.FirstName
+                                          </text>   
+                                         } <br />
+            <strong>Team Lead:</strong> @if (Model.Lead != null) { 
+                                          <text>
+                                                @Model.Lead.LastName, @Model.Lead.FirstName
+                                          </text>   
+                                         } <br />
+            <strong>Presenter:</strong> @if (Model.Presenter != null) { 
+                                          <text>
+                                                @Model.Presenter.LastName, @Model.Presenter.FirstName
+                                          </text>   
+                                         } <br />
+        </div>
+        <div class="well">
+            <strong>Members:</strong> <br />
+            @foreach (var member in Model.Members)
+            {
+                @Html.ActionLink(String.Format("{0}, {1}", member.LastName, member.FirstName), "Details", new { controller = "User", id = member.UserId })  <br />     
+            }
+        </div>
+        @Html.Action("RecentChanges", "EditHistory", new { projectid = Model.ProjectId }) 
+        <div class="pull-right">
+            <div class="dropdown">
+                <button class="btn btn-default" id="viewFeedback">Feedback</button>
+                <button class="btn btn-default" id="viewHistory">History</button>
+                <button data-toggle="dropdown" class="btn btn-primary">Edit Project..</button>
+                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href='@Url.Action("Edit", new { projectid = Model.ProjectId })'>Edit Project</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation"><a id="idea" role="menuitem" tabindex="-1" class="projectLeadEdit" href="#">Edit Owner</a></li>
+                    <li role="presentation"><a id="lead" role="menuitem" tabindex="-1" class="projectLeadEdit" href="#">Edit Team Lead</a></li>
+                    <li role="presentation"><a id="presenter" role="menuitem" tabindex="-1" class="projectLeadEdit" href="#">Edit Presenter</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("JoinTeam", new { projectid = Model.ProjectId })">Add Team Members</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("RemoveUser", new { projectid = Model.ProjectId })">Remove Team Members</a></li>
+                </ul>
+            </div>   
+        </div>
+    </div>
+</div>
+
+<div id="projectLeaderModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"> 
+                <div>
+                    <div class="input-group">
+                        <input placeholder="to begin, search here!" id="searchInput" type="text" class="form-control">
+                        <span class="input-group-btn">
+                            <button id="modalSearchUsers" type="button" class="btn btn-default">Search</button>
+                        </span>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                </div>    
+            </div>  
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Office</th>
+                            <th>Title</th>
+                        </tr>
+                    </thead>
+                    <tbody class="selectuser">
+
+                    </tbody>
+                </table>
+                <div id="waitImage" class="center" style="width: 200px; z-index: 1050;">
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar" role="progressbar" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                @Html.Hidden("modifyURL", Url.Action("ModifyProjectLeaders", "Project"))
+                @Html.Hidden("projectID", Model.ProjectId)
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="removeLead" type="button" class="btn btn-danger">Remove Lead</button>
+                <button id="submitLeadChange" type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

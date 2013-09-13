@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="ChanceDays2.Models.ProjectDBContext-Web.config Connection String" description="ChanceDays2.Models.ProjectDBContext Connection String used in web.config by the application to access the database." defaultValue="ChanceDays2.Models.ProjectDBContext_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\phouse\\Documents\\Visual\ Studio\ 2012\\Projects\\ChanceDays2\\ChanceDays2\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ChanceDays2.Models.ProjectDBContext']/@connectionString" />
+  </parameter>
+</parameters>

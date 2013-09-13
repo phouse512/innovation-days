@@ -1,0 +1,20 @@
+﻿@model IEnumerable<ChanceDays2.Models.User>
+
+
+
+    @foreach (var user in Model) {
+        <tr id="@user.UserId">
+            <td class="fixedTh">
+                @user.LastName
+            </td>
+            <td class="fixedTh">
+                @user.FirstName
+            </td>
+            <td class="fixedTh">
+                @user.Office
+            </td>
+            <td class="fixedThLarge">
+                @user.Title
+            </td>
+        </tr>
+    }

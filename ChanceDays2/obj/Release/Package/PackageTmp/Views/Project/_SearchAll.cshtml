@@ -1,0 +1,42 @@
+﻿@model ChanceDays2.Models.PaginatedProjectSearchResults
+    @if(Model != null && Model.projectResults != null){
+        foreach (var project in Model.projectResults) {
+        <tr id="@project.ProjectId">
+            <td class="fixedTh">
+                @project.ProjectName
+            </td>
+            <td class="fixedTh">
+                @project.ChanceDay
+            </td>
+            <td class="fixedTh">
+                @project.ProcessStatus
+            </td>
+            <td class="fixedThLarge">
+                @project.FeedbackStatus
+            </td>
+        </tr>
+        }
+        <hr />
+        if (Model.totalPages > 1){
+            <ul id="paginationBar" class="pagination pagination-lg">
+            @if (Model.currentPage == 1) {
+                <li class="disabled"><a href="#">&laquo;</a></li>
+            } else {
+                <li class="previousPage"><a href="#">&laquo;</a></li>   
+            }
+            @for(int i = 1; i <= Model.totalPages; i++){
+                    if (i == Model.currentPage){
+                        <li class="active"><a href="#">@i</a></li>   
+                    }else {
+                        <li><a href="#">@i</a></li>   
+                    }      
+            }
+            @if (Model.currentPage == Model.totalPages){
+                <li class="disabled"><a href="#">&raquo;</a></li>   
+            } else {
+                <li class="nextPage"><a href="#">&raquo;</a></li>   
+            }
+            </ul>
+        }
+    }
+    

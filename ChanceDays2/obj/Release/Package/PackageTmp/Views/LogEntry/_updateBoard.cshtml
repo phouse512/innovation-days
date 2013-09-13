@@ -1,0 +1,14 @@
+﻿@model IEnumerable<ChanceDays2.Models.LogEntry>
+
+@foreach (var item in Model) {
+   <div id="@item.LogEntryId" class="panel panel-default">
+       <div class="panel-heading">
+           @item.PostedBy.FirstName @item.PostedBy.LastName on @item.PostedOn.ToShortDateString() at @item.PostedOn.ToShortTimeString()
+       </div>
+       <div class="panel-body">
+           @item.Content
+       </div>
+   </div> 
+}
+
+

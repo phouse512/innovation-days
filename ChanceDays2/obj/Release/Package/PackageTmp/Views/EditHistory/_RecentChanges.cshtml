@@ -1,0 +1,22 @@
+﻿@model IEnumerable<ChanceDays2.Models.ProjectVersion>
+
+<div>
+    <ul class="list-group">
+
+@{
+    
+    int i = 0;
+    foreach(var pastVersion in Model){
+        <a href='@Url.Action("ViewEditHistory", "EditHistory", new { projectid = pastVersion.parentId })' class="list-group-item">
+            @if (i == 0)
+            {
+                <span class="badge">Latest</span>
+            }
+            <small>edit by @pastVersion.EditedBy.FirstName @pastVersion.EditedBy.LastName on @pastVersion.EditedOn.ToShortDateString()</small>
+        </a>
+        i++;
+    }
+
+}
+    </ul>
+</div>

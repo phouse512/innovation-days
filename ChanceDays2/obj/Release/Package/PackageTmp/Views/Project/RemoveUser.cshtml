@@ -1,0 +1,75 @@
+﻿
+@model ChanceDays2.Models.ProjectView
+
+@{
+    ViewBag.Title = "JoinTeam";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadUserListener("normal");
+
+        $("#removeMember").click(function () {
+            var userId = $("tr.selectedUser").attr("id");
+            if (typeof userId != "undefined") {
+                var link = '@Html.Raw(@Url.Action("RemoveUserFromTeam", "Project", new { projectid = Model.ProjectId, userid = -1, editorname = User.Identity.Name }))';
+                link = link.replace('-1', userId);
+                window.location = link;
+            }
+        });
+    });
+
+</script>
+
+<h4>Remove Team Members from "@Html.DisplayFor(project => Model.ProjectName)"</h4>
+<div class="row">
+    <div class="col-lg-8">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Office</th>
+                    <th>Title</th>
+                    <th>Department</th>
+                </tr>
+            </thead>
+            <tbody class="selectuser">
+        @foreach (var user in Model.Members) {
+            <tr id="@Html.DisplayFor(ModelUser => user.UserId)">
+                <td>
+                    @Html.DisplayFor(ModelUser => user.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(ModelUser => user.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(ModelUser => user.Office)
+                </td>
+                <td>
+                    @Html.DisplayFor(ModelUser => user.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(ModelUser => user.Department)
+                </td>
+            </tr>
+        }
+            </tbody>
+        </table>
+        <div class="pull-right">
+           
+            <button type="button" onclick="javascript:window.location=('@Url.Action("Details", "Project", new {id=Model.ProjectId})')"  class="btn btn-info">Return</button>
+            <button type="button" id="removeMember"  class="btn btn-danger">Remove Team Member</button>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="well">
+            <strong>Chance Day:</strong> @Html.DisplayFor(ModelProject => Model.ChanceDay) <br />
+            <strong>Project Name: </strong> @Html.DisplayFor(ModelProject => Model.ProjectName) <br />
+            <strong>Pitch URL: </strong> @Html.DisplayFor(ModelProject => Model.PitchUrl) <br />
+            <strong>Process Status: </strong> @Html.DisplayFor(ModelProject => Model.ProcessStatus) <br />
+            <strong>Feedback Status: </strong> @Html.DisplayFor(ModelProject => Model.FeedbackStatus) <br />
+        </div>
+    </div>
+</div>
+

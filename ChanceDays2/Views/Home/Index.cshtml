@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ChanceDays2.Models.ProjectView>
+@{
+    ViewBag.Title = "Home Page";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+            <p>
+                To learn more about Chance Days, visit MRI.
+            </p>
+        </div>
+    </section>
+}
+
+<h3>Recent Projects..</h3>
+
+<div class="row">
+
+
+@{
+    string[] classes = new string[6] {"one", "two", "three", "four", "five", "six"};
+    int i = 0;
+    foreach(var project in Model){
+        <div class="col-lg-4">
+            <ol class="round well">
+                <li class="@classes[i] padding-bottom">
+                    <strong>Chance Day:</strong> @project.ChanceDay <br />
+                    <strong>Name: </strong> @project.ProjectName <br />
+                    <strong>Process Status: </strong><br /> @project.ProcessStatus <br />
+                    <strong>Feedback Status: </strong><br /> @project.FeedbackStatus  <br />
+                    <button id='@project.ProjectId' onclick="window.location.href='@Url.Action("Details", "Project", new { id = project.ProjectId })';" class="btn-sm btn btn-default pull-right verticalSpace">View More</button>
+                </li>
+            </ol>
+        </div>
+        i++;
+        if (i == 3)
+        {
+            @:</div><div class="row">
+        }
+
+    }
+}
+
+</div>
+

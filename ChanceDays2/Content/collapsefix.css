@@ -1,0 +1,46 @@
+/*  
+    Bootstrap Collapse Fixes
+*/
+
+
+
+.panel-default > .panel-heading + .panel-collapse .panel-body {
+    border-top: 0px;
+}
+
+.panel-body {
+    padding: 15px;
+    padding-top: 25px;
+    padding-bottom: 5px;
+}
+
+.panel-default > .panel-heading {
+    margin-bottom: -15px;
+}
+
+.panel-group .pane-heading {
+    border-bottom: 1px;
+}
+
+.a:hover, a:focus {
+    color: #000000;
+    text-decoration: none;
+}
+
+a:hover, a:focus {
+    color: #000000;
+    text-decoration: none;
+}
+
+a:hover {
+    background-color: #F5F5F5;
+}
+
+.noBottomMargin {
+    margin-bottom: 0px;
+}
+
+.panel {
+    margin-bottom: 0px;
+}
+

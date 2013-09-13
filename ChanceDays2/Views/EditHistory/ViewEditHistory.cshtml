@@ -1,0 +1,42 @@
+﻿@model ChanceDays2.Models.Project
+
+@{
+    ViewBag.Title = "ViewEditHistory";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var count = parseInt('@Model.ProjectId');
+        var url = '@Url.Action("PaginatedViewHistory", "EditHistory")';
+        returnPaginatedEditHistory(count, url, 1, 10);
+
+        var returnUrl = '@Url.Action("Details", "Project", new { id = Model.ProjectId })';
+        $("#return").click(function () {
+            window.location.href = returnUrl;
+        });
+    });
+</script>
+
+<h3>View Edit History</h3>
+
+<div class="row">
+    <div id="results" class="col-lg-8">
+
+    </div>
+    <div class="col-lg-4">
+        <div class="well">
+            <strong>Project Name:</strong> @Model.CurrentVersion.ProjectName <br />
+            <strong>Created By:</strong> @Html.ActionLink(String.Format("{0} {1}", Model.CreatedBy.FirstName, Model.CreatedBy.LastName), "Details", new { controller = "User", id = Model.CreatedBy.UserId }) <br />
+            <strong>Created On:</strong> @Model.CreatedOn.ToShortDateString() <br />
+            <strong>Created At: </strong> @Model.CreatedOn.ToShortTimeString()
+        </div>
+        <div>
+            <button id="return" class="btn btn-default pull-right" type="button">Return to Project</button>
+        </div>
+        <div id="waitImage" class="center" style="width: 133px; z-index: 1050;">
+            <div class="progress progress-striped active">
+                <div class="progress-bar" role="progressbar" style="width: 100%"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,90 @@
+﻿@model ChanceDays2.Models.ProjectView
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.Hidden("editorName", Context.User.Identity.Name)
+    @Html.Hidden("ProjectId", Model.ProjectId)
+    
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="control-label" for="ProjectName">Project Name:</label>
+                <input name="ProjectName" id="ProjectName" type="text" class="form-control" value="@Model.ProjectName" />
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label class="control-label" for="ChanceDay">Chance Day:</label> 
+                <input name="ChanceDay" id="ChanceDay" type="text" class="form-control" value="@Model.ChanceDay" placeholder="ie. 'Q2 2013'" />
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="form-group">
+                <label class="control-label" for="ProblemDescription">What problem are you solving for?</label>
+                <textarea rows="6" name="ProblemDescription" id="ProblemDescription" class="form-control" placeholder="problem description..">@Model.ProblemDescription</textarea>
+            </div>
+        </div>
+        <div class="col-lg-10">
+            <div class="form-group">
+                <label class="control-label" for="ProposedSolution">What is your proposed solution or starting point?</label>
+                <textarea rows="6" name="ProposedSolution" id="ProposedSolution" class="form-control" placeholder="proposed solution..">@Model.ProposedSolution</textarea>
+            </div>
+        </div>
+        <div class="col-lg-10">
+            <div class="form-group">
+                <label class="control-label" for="ProjectScope">What is the scope of this project?</label>
+                <textarea rows="6" name="ProjectScope" id="ProjectScope" class="form-control" placeholder="project scope..">@Model.ProjectScope</textarea>
+            </div>
+        </div>
+        <div class="col-lg-10">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label" for="ProcessStatus">Project Status:</label>
+                        <input name="ProcessStatus" id="ProcessStatus" type="text" class="form-control" value="@Model.ProcessStatus" placeholder="ie. 'work underway', 'complete'" />
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label" for="FeedbackStatus">Feedback Collection Status:</label> 
+                        <input name="FeedbackStatus" id="FeedbackStatus" type="text" class="form-control" value="@Model.FeedbackStatus" placeholder="ie. 'Feedback collected'" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-10">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="form-group">
+                        <label class="control-label" for="PitchUrl">Pitch Url:</label> 
+                        <input name="PitchUrl" id="PitchUrl" type="text" class="form-control" value="@Model.PitchUrl" placeholder="ie. 'www.example.com/download'" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <button type="submit" class="btn btn-primary btn-large pull-right verticalSpace2">Save Project</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

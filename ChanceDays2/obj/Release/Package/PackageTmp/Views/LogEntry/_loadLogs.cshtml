@@ -1,0 +1,12 @@
+﻿@model IEnumerable<ChanceDays2.Models.LogEntry>
+
+@foreach (var feedback in Model)
+{
+    <div class="custom-panels panel panel-default">
+        <div class="panel-body" style="margin-bottom: 12px;">
+            @Html.Raw(feedback.Content)
+            <br />
+            <i class="pull-right" style="font-size: smaller;">Posted by @feedback.PostedBy.FirstName @feedback.PostedBy.LastName on @feedback.PostedOn.ToShortDateString()</i>
+        </div>
+    </div>            
+}

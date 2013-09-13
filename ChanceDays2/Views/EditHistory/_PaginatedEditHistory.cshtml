@@ -1,0 +1,61 @@
+﻿@model ChanceDays2.Models.PaginatedEditHistory
+
+<link rel="stylesheet" href='@Url.Content("~/Content/collapsefix.css")' />
+
+ <div class="row">
+     <div class="col-lg-12">
+        <div class="panel-group" id="accordion">
+        @{
+            int i = 0;
+            foreach(var oldVersion in Model.results){
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#@("collapse_" + i)">
+                                edited by @oldVersion.EditedBy.FirstName @oldVersion.EditedBy.LastName at @oldVersion.EditedOn.ToShortTimeString() on @oldVersion.EditedOn.ToShortDateString()
+                            </a>
+                            @if (i == 0 && Model.currentPage == 1)
+                            {
+                                <span class="pull-right badge">
+                                    Current
+                                </span>
+                            }
+                        </h4>
+                    </div>
+                    <div id="@("collapse_" + i)" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            @oldVersion.ChangeDescription
+
+                            <button id="@oldVersion.ProjectVersionId" class="btn btn-small btn-default pull-right">View More</button>
+                        </div>
+                    </div>
+                </div>
+                i++;
+            }
+        }
+        </div>
+        <div class="col-lg-12">
+            @if (Model.totalPages > 1){
+                <ul id="paginationBar" class="pagination pagination-lg ul-centered">
+                @if (Model.currentPage == 1) {
+                    <li class="disabled"><a href="#">&laquo;</a></li>
+                } else {
+                    <li class="previousPage"><a href="#">&laquo;</a></li>   
+                }
+                @for(int j = 1; j <= Model.totalPages; j++){
+                        if (j == Model.currentPage){
+                            <li class="active"><a href="#">@j</a></li>   
+                        }else {
+                            <li><a href="#">@j</a></li>   
+                        }      
+                }
+                @if (Model.currentPage == Model.totalPages){
+                    <li class="disabled"><a href="#">&raquo;</a></li>   
+                } else {
+                    <li class="nextPage"><a href="#">&raquo;</a></li>   
+                }
+                </ul>
+            }
+        </div>
+    </div>
+</div>

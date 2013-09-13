@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>MarkdownHelper</id>
+    <version>1.3</version>
+    <title>MarkdownHelper</title>
+    <authors>Danny Tuppeny</authors>
+    <owners>Danny Tuppeny</owners>
+    <projectUrl>http://blog.dantup.com/2011/04/markdownhelper-on-nuget-using-markdowndeep</projectUrl>
+    <iconUrl>https://nugetgallery.blob.core.windows.net/icons/MarkdownHelper.1.3.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>HTML helpers to allow easier rendering of Markdown in an ASP.NET MVC web app:
+
+@Html.Markdown(Model.Body)</description>
+    <summary>HTML helpers to allow easier rendering of Markdown in an ASP.NET MVC web app:  @Html.Markdown(Model.Body)</summary>
+    <releaseNotes />
+    <copyright />
+    <language />
+    <tags>Markdown</tags>
+    <dependencies>
+      <dependency id="MarkdownDeep.NET" version="1.4" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Web" targetFramework=".NETFramework4.0" />
+      <frameworkAssembly assemblyName="System.Web.Mvc" targetFramework=".NETFramework4.0" />
+    </frameworkAssemblies>
+    <references />
+  </metadata>
+</package>
